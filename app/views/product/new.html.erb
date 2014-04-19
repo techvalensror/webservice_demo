@@ -1,0 +1,136 @@
+<script type="text/javascript">
+function change_rest_type(id){
+
+var children_ids = [];
+
+
+$("div.top").contents().filter(
+
+  function(){
+    if (this.nodeType == 1) { // nodeType 1 => div
+      // reg exp matches div
+        try {
+          children_ids.push(this.id);
+        } catch(e){}
+    }
+  }
+);
+
+// or maybe the more familiar, the non-jquery way
+for(var i = 0 ; i < children_ids.length; i++){
+ $("#"+children_ids[i]).hide();
+}
+$("#"+id).show();
+
+}
+</script>
+<script type="text/javascript">
+
+
+  function confirmDeleteValidate(){
+var Check = confirm("You Want to delete this Fact");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+
+</script>
+
+
+
+
+
+<div id="wrapper">
+
+
+  <div class="actions" ><span class="bus_back"><a href="javascript:void(0)" onclick="change_rest_type('add_wish')" style="font-size: 16px;
+color: gray;"> Add Fact</a></span></div>
+ <div id="add_wish" style="display: none;">
+
+
+<%= form_for @product, :as => :product , :url => create_product_path,:html => {:class => "input_field_div",:multipart => true } , :method => "post" do |f| %>
+
+<div class="field_hight">
+  <label>Title</label><br/>
+<%= f.text_field :title, :class => "text_field_div" %>
+</div>
+
+
+
+
+<div class="field_hight">
+  <label>Author</label><br/>
+  <%= f.text_field :author, :class => "text_field_div" %>
+</div>
+
+   <div class="field_hight">
+  <label>Author</label><br/>
+  <%= f.file_field :fact_image, :class => "text_field_div" %>
+</div>
+
+   <div class="field_hight">
+  <label>Content</label><br/>
+  <%= f.text_area :content,:class => "text_area_div" %>
+
+</div>
+
+
+<div class="submit_button">
+  <%= f.submit "Submit" , :class => "submit_button_tec"%>
+</div>
+
+
+
+
+
+
+<% end %>
+
+ </div>
+
+  <h1 style="font-size:18px;">List of Facts</h1>
+
+<table id="keywords" cellspacing="0" cellpadding="0" class="table_field">
+        <thead>
+          <tr align="center" class="serial" >
+            <th class="headerheaderSortDown"><span>Sr No.</span></th>
+            <th><span>Fact Image</span></th>
+            <th><span>Title</span></th>
+
+            <th><span>Content</span></th>
+            <th><span>Author</span></th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+<%@count=0%>
+
+                      <% @fact.each do |fact|  %>
+                      <tr class="alt" align="center">
+                              <td><%=@count+= 1  %></td>
+                              <td><%= image_tag fact.fact_image.url(:thumb) ,:size => "50x50"%></td>
+                                  <td><%=fact.title%></td>
+
+                        <td ><%=fact.content%></td>
+                        <td ><%=fact.author%></td>
+
+                        <td ><%= link_to 'Edit', edit_path(fact.id) %>/<%= link_to 'Delete', delete_path(fact.id),:onclick=>" return confirmDeleteValidate();" %></td>
+                                    </tr>
+                               <%end%>
+
+                        </tbody>
+                </table>
+<%= will_paginate @fact %>
+</div>
+<script type="text/javascript">
+$(function(){
+  $('#keywords').tablesorter();
+});
+</script>

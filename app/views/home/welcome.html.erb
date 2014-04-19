@@ -1,0 +1,131 @@
+<script type="text/javascript">
+function change_rest_type(id){
+
+var children_ids = [];
+
+
+$("div.top").contents().filter(
+
+  function(){
+    if (this.nodeType == 1) { // nodeType 1 => div
+      // reg exp matches div
+        try {
+          children_ids.push(this.id);
+        } catch(e){}
+    }
+  }
+);
+
+// or maybe the more familiar, the non-jquery way
+for(var i = 0 ; i < children_ids.length; i++){
+ $("#"+children_ids[i]).hide();
+}
+$("#"+id).show();
+
+}
+</script>
+<script type="text/javascript">
+
+
+  function confirmDeleteValidate(){
+var Check = confirm("You Want to delete this Fact");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+
+</script>
+
+
+
+
+  <section id="content">
+
+<div id="wrapper">
+
+
+  <div class="actions" ><span class="bus_back"><a href="javascript:void(0)" onclick="change_rest_type('add_wish')" style="font-size: 16px;
+color: blue;margin-left: 83%;"> Add Fact</a></span></div>
+ <div id="add_wish" style="display: none;">
+
+
+<%= form_for @product, :as => :product , :url => create_product_path,:html => {:class => "input_field_div",:multipart => true } , :method => "post" do |f| %>
+
+<div class="field_hight">
+  <label>Title</label><br/>
+<%= f.text_field :name, :class => "text_field_div" , :placeholder => "Product Name"%>
+</div>
+
+<%= f.hidden_field :user_id , :value => "#{session[:user_id]}" %>
+
+
+<div class="field_hight">
+  <label>Author</label><br/>
+  <%= f.text_field :price, :class => "text_field_div" , :placeholder => "Price"%>
+</div>
+
+
+
+<div class="submit_button">
+  <%= f.submit "Submit" , :class => "submit_button_tec"%>
+</div>
+
+
+
+
+
+
+<% end %>
+
+ </div>
+
+
+
+<table id="keywords" cellspacing="0" cellpadding="0" class="table_field">
+        <thead>
+          <tr><td colspan="4">
+              <h1> Product List</h1>
+            </td></tr>
+          <tr align="center" class="serial" >
+            <th class="headerheaderSortDown"><span>Sr No.</span></th>
+            <th><span>Product Name</span></th>
+            <th><span>Price</span></th>
+
+                          <th>Actions</th>
+
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                      <% if !@products.present? %>
+                      <% else %>
+
+<%@count=0%>
+
+                      <% @products.each do |product|  %>
+                      <tr class="alt" align="center">
+                              <td><%=@count+= 1  %></td>
+                                <td><%=product.name%></td>
+
+                        <td ><%=product.price%></td>
+                          <td ><%= link_to 'Edit', edit_product_path(product.id) %>/<%= link_to 'Delete', delete_product_path(product.id),:onclick=>" return confirmDeleteValidate();" %></td>
+                                    </tr>
+                               <%end%>
+
+                                  
+
+                        </tbody>
+                </table>
+<%#= will_paginate !@products %>
+    <% end %>
+  </section>
+</div>
+<script type="text/javascript">
+$(function(){
+  $('#keywords').tablesorter();
+});
+</script>

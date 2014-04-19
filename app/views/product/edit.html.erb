@@ -1,0 +1,29 @@
+
+
+
+  <section id="content">
+<%= form_for @products, :as => :product , :url => update_product_path,:id => @products.id, :method => "post" do |f| %>
+<h1>Edit Product</h1>
+
+<div class="field_hight">
+  <label>Product Name</label><br/>
+<%= f.text_field :name, :class => "text_field_div" %>
+</div>
+<%= f.hidden_field :id , :value => "#{@products.id}" %>
+  <div class="field_hight">
+  <label>Price</label><br/>
+  <%= f.text_field :price, :class => "text_field_div" %>
+</div>
+
+
+
+<div class="submit_button">
+  <%= f.submit "Submit" , :class => "submit_button_tec"%>
+</div>
+
+
+
+
+
+<% end %>
+  </section>

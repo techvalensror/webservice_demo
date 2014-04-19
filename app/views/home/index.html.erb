@@ -1,0 +1,41 @@
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6 ielt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7 ielt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Paper Stack</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<div class="container">
+	<section id="content">
+		<%= form_for @user ,:as => :user, :url => user_login_path, :method => 'post'  do |f| %>
+  <h1>Login Form</h1>
+ <% if @user.errors.any? %>
+<div class="error_messages">
+<h2>Form is invalid</h2>
+<ul>
+<% for message in @user.errors.full_messages %>
+<li><%= message %></li>
+<% end %>
+</ul>
+</div>
+<% end %>
+  <%= f.text_field :email,:placeholder => "E-mail", :id => "username" %>
+  <%= f.password_field :password, :placeholder => "Password", :id => "password" %>
+			<div>
+				<%= f.submit "Login" %>
+				<%= link_to "Register", registration_path%>
+			</div>
+		<% end %><!-- form -->
+		<%#*<div class="button">%>
+			<%#*<a href="#">Download source file</a>%>
+		<%#*</div><!-- button -->%>
+	</section><!-- content -->
+</div><!-- container -->
+</body>
+</html>
